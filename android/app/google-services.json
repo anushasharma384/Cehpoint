@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "113396010755",
+    "project_id": "thaiseva-85cda",
+    "storage_bucket": "thaiseva-85cda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113396010755:android:951b6b7b46f2a561572336",
+        "android_client_info": {
+          "package_name": "com.example.cehpoint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113396010755-rv07jj23vktqj0vasel7nu2g2vpg517i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMBbIQqie59lAZYwyasjKYr0iF7Z4oqdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113396010755-rv07jj23vktqj0vasel7nu2g2vpg517i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
