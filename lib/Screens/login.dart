@@ -14,12 +14,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  TextEditingController countrycode = TextEditingController();
   String name = '';
   String email = '';
   var phone = '';
   String password = '';
   String gender = '';
   bool login = false;
+
+   @override
+  void initState() {
+    countrycode.text = "+91";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,39 +143,61 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
-                margin:
+                    margin:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color.fromRGBO(115, 115, 115, 1),
                         width: 1)),
-                child: TextFormField(
-                  key: const ValueKey('phone'),
-                  decoration: const InputDecoration(
-                    hintText: "Phone number",
-                    hintStyle: TextStyle(
-                        fontSize: 16.38,
+                    
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: width*0.02,
+                        ),
+                        SizedBox(
+                            width: width*0.01,
+                            child: TextField(
+                              decoration:
+                                  const InputDecoration(border: InputBorder.none),
+                              controller: countrycode,
+                              style:
+                                  const TextStyle(fontSize: 16.38,
                         fontWeight: FontWeight.w500,
                         color: Color.fromRGBO(115, 115, 115, 1)),
-                    border: InputBorder.none,
+                            )),
+                        SizedBox(
+                          width: width*0.04,
+                          child: const Text(
+                            "|",
+                            style: TextStyle(fontSize: 16.38,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(115, 115, 115, 1)),
+                          ),
+                        ),
+                        Expanded(
+                            child: TextField(
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) {
+                            phone = value;
+                          },
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Phone Number",
+                              hintStyle:
+                                  TextStyle(fontSize: 16.38,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(115, 115, 115, 1))),
+                          style: const TextStyle(fontSize: 16.38,
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromRGBO(115, 115, 115, 1)),
+                        )),
+                      ],
+                    ),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty || value.length < 10) {
-                      return 'Please Enter Your Phone Number';
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (value) {
-                    setState(() {
-                      phone = value!;
-                    });
-                  },
-                ),
-              ),
               Container(
                 margin:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -225,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
                     border: InputBorder.none,
                   ),
                   validator: (value) {
-                    if (value!.isEmpty || value.contains('male')) {
+                    if (value!.isEmpty) {
                       return 'Please enter your gender';
                     } else {
                       return null;
@@ -250,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                       _formKey.currentState!.save();
                     }
                      await FirebaseAuth.instance.verifyPhoneNumber(
-                          phoneNumber: '${phone}',
+                          phoneNumber: '${countrycode.text + phone}',
                           verificationCompleted:
                               (PhoneAuthCredential credential) {},
                           verificationFailed: (FirebaseAuthException e) {},
