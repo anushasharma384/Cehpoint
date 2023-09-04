@@ -15,7 +15,6 @@ class OTPpage extends StatefulWidget {
 class _OTPpageState extends State<OTPpage> {
   final TextEditingController _otpController = TextEditingController();
   
-  get auth => null;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -57,7 +56,7 @@ class _OTPpageState extends State<OTPpage> {
             height: height*0.03,
           ),
           const Text(
-            "We have sent the code to you Email",
+            "We have sent the code to your phone",
             style: TextStyle(
               fontSize: 16.4,
               fontWeight: FontWeight.w400,
@@ -111,7 +110,7 @@ class _OTPpageState extends State<OTPpage> {
                                  verificationId: LoginPage.verify,
                                   smsCode: code);
 
-                            await auth.signInWithCredential(credential);
+                            await FirebaseAuth.instance.signInWithCredential(credential);
                           }
                           catch(e) {}
                           Navigator.of(context).push(MaterialPageRoute(

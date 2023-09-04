@@ -10,6 +10,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  String name = '';
+  String password = '';
+  bool login = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -63,15 +66,28 @@ class _SignUpState extends State<SignUp> {
                   border: Border.all(
                       color: const Color.fromRGBO(115, 115, 115, 1),
                       width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: "User Nmae",
+              child:  TextFormField(
+                key: const ValueKey('name'),
+                decoration: const InputDecoration(
+                  hintText: "User Name",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
                       fontWeight: FontWeight.w500,
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please Enter Your Name';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      name = value!;
+                    });
+                  },
               ),
             ),
             Container(
@@ -82,8 +98,9 @@ class _SignUpState extends State<SignUp> {
                   border: Border.all(
                       color: const Color.fromRGBO(115, 115, 115, 1),
                       width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+              child:  TextFormField(
+                key: const ValueKey('password'),
+                decoration: const InputDecoration(
                   hintText: "Password",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -91,6 +108,18 @@ class _SignUpState extends State<SignUp> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty || value.length < 6) {
+                      return 'Please enter the correct password of min length 6';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      password = value!;
+                    });
+                  },
               ),
             ),
             Row(

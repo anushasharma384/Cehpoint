@@ -9,6 +9,12 @@ class UserDetails extends StatefulWidget {
 }
 
 class _UserDetailsState extends State<UserDetails> {
+  String name = '';
+  String email = '';
+  var phone = '';
+  var dob = '';
+  String gender = '';
+  bool login = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -23,7 +29,7 @@ class _UserDetailsState extends State<UserDetails> {
             Row(
               children: [
                 SizedBox(
-                  width: width*0.06,
+                  width: width * 0.06,
                 ),
                 const Text(
                   "Add Personal Details",
@@ -44,10 +50,10 @@ class _UserDetailsState extends State<UserDetails> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color.fromRGBO(115, 115, 115, 1),
-                      width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+                      color: const Color.fromRGBO(115, 115, 115, 1), width: 1)),
+              child: TextFormField(
+                key: const ValueKey('name'),
+                decoration: const InputDecoration(
                   hintText: "Name",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -55,6 +61,18 @@ class _UserDetailsState extends State<UserDetails> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please Enter Your Name';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      name = value!;
+                    });
+                  },
               ),
             ),
             Container(
@@ -63,10 +81,10 @@ class _UserDetailsState extends State<UserDetails> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color.fromRGBO(115, 115, 115, 1),
-                      width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+                      color: const Color.fromRGBO(115, 115, 115, 1), width: 1)),
+              child: TextFormField(
+                key: const ValueKey('phone'),
+                decoration: const InputDecoration(
                   hintText: "Phone number",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -74,6 +92,18 @@ class _UserDetailsState extends State<UserDetails> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty || value.length < 10) {
+                      return 'Please Enter Valid Phone number';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      phone = value!;
+                    });
+                  },
               ),
             ),
             Container(
@@ -82,10 +112,10 @@ class _UserDetailsState extends State<UserDetails> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color.fromRGBO(115, 115, 115, 1),
-                      width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+                      color: const Color.fromRGBO(115, 115, 115, 1), width: 1)),
+              child: TextFormField(
+                key: const ValueKey('email'),
+                decoration: const InputDecoration(
                   hintText: "Email Id",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -93,6 +123,18 @@ class _UserDetailsState extends State<UserDetails> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty || value.contains('@')) {
+                      return 'Please Enter Valid Email Id';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      email = value!;
+                    });
+                  },
               ),
             ),
             Container(
@@ -101,10 +143,10 @@ class _UserDetailsState extends State<UserDetails> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color.fromRGBO(115, 115, 115, 1),
-                      width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+                      color: const Color.fromRGBO(115, 115, 115, 1), width: 1)),
+              child: TextFormField(
+                key: const ValueKey('dob'),
+                decoration: const InputDecoration(
                   hintText: "DOB",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -112,6 +154,18 @@ class _UserDetailsState extends State<UserDetails> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please Enter Your DOB';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      dob = value!;
+                    });
+                  },
               ),
             ),
             Container(
@@ -120,10 +174,10 @@ class _UserDetailsState extends State<UserDetails> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: const Color.fromRGBO(115, 115, 115, 1),
-                      width: 1)),
-              child: const TextField(
-                decoration: InputDecoration(
+                      color: const Color.fromRGBO(115, 115, 115, 1), width: 1)),
+              child: TextFormField(
+                key: const ValueKey('gender'),
+                decoration: const InputDecoration(
                   hintText: "Gender",
                   hintStyle: TextStyle(
                       fontSize: 16.38,
@@ -131,6 +185,18 @@ class _UserDetailsState extends State<UserDetails> {
                       color: Color.fromRGBO(115, 115, 115, 1)),
                   border: InputBorder.none,
                 ),
+                validator: (value) {
+                    if (value!.isEmpty || value.contains("male")) {
+                      return 'Please Enter Your Gender';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      gender = value!;
+                    });
+                  },
               ),
             ),
             SizedBox(
@@ -138,11 +204,11 @@ class _UserDetailsState extends State<UserDetails> {
             ),
             SizedBox(
               height: 50,
-              width: width*0.9,
+              width: width * 0.9,
               child: ElevatedButton(
                 onPressed: () async {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const HomePage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const HomePage()));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 18, 60, 215),
