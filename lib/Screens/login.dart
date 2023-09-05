@@ -22,7 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   String gender = '';
   bool login = false;
 
-   @override
+  bool isLoading = false;
+
+  @override
   void initState() {
     countrycode.text = "+91";
     super.initState();
@@ -143,61 +145,59 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
-                    margin:
+                margin:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                    decoration: BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                         color: const Color.fromRGBO(115, 115, 115, 1),
                         width: 1)),
-                    
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: width*0.02,
-                        ),
-                        SizedBox(
-                            width: width*0.01,
-                            child: TextField(
-                              decoration:
-                                  const InputDecoration(border: InputBorder.none),
-                              controller: countrycode,
-                              style:
-                                  const TextStyle(fontSize: 16.38,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(115, 115, 115, 1)),
-                            )),
-                        SizedBox(
-                          width: width*0.04,
-                          child: const Text(
-                            "|",
-                            style: TextStyle(fontSize: 16.38,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(115, 115, 115, 1)),
-                          ),
-                        ),
-                        Expanded(
-                            child: TextField(
-                          keyboardType: TextInputType.phone,
-                          onChanged: (value) {
-                            phone = value;
-                          },
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Phone Number",
-                              hintStyle:
-                                  TextStyle(fontSize: 16.38,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(115, 115, 115, 1))),
-                          style: const TextStyle(fontSize: 16.38,
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromRGBO(115, 115, 115, 1)),
+                child: Row(
+                  children: [
+                    SizedBox(
+                        width: width * 0.1,
+                        child: TextField(
+                          decoration:
+                              const InputDecoration(border: InputBorder.none),
+                          controller: countrycode,
+                          style: const TextStyle(
+                              fontSize: 16.38,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(115, 115, 115, 1)),
                         )),
-                      ],
+                    SizedBox(
+                      width: width * 0.04,
+                      child: const Text(
+                        "|",
+                        style: TextStyle(
+                            fontSize: 16.38,
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(115, 115, 115, 1)),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                        child: TextField(
+                      keyboardType: TextInputType.phone,
+                      onChanged: (value) {
+                        phone = value;
+                      },
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Phone Number",
+                          hintStyle: TextStyle(
+                              fontSize: 16.38,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(115, 115, 115, 1))),
+                      style: const TextStyle(
+                          fontSize: 16.38,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(115, 115, 115, 1)),
+                    )),
+                  ],
+                ),
+              ),
               Container(
                 margin:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -274,32 +274,45 @@ class _LoginPageState extends State<LoginPage> {
                 height: 50,
                 width: width * 0.9,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                    }
-                     await FirebaseAuth.instance.verifyPhoneNumber(
-                          phoneNumber: '${countrycode.text + phone}',
-                          verificationCompleted:
-                              (PhoneAuthCredential credential) {},
-                          verificationFailed: (FirebaseAuthException e) {},
-                          codeSent: (String verificationId, int? resendToken) {
-                            LoginPage.verify = verificationId;
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const OTPpage()));
-                          },
-                          codeAutoRetrievalTimeout: (String verificationId) {},
-                        );
-                  },
+                  onPressed: isLoading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                          }
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await FirebaseAuth.instance.verifyPhoneNumber(
+                            phoneNumber: countrycode.text + phone,
+                            verificationCompleted:
+                                (PhoneAuthCredential credential) {},
+                            verificationFailed: (FirebaseAuthException e) {},
+                            codeSent:
+                                (String verificationId, int? resendToken) {
+                              LoginPage.verify = verificationId;
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const OTPpage())
+                                  
+                              );
+                            },
+                            codeAutoRetrievalTimeout:
+                                (String verificationId) {},
+                          );
+                        },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 18, 60, 215),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                 ),
               ),
               SizedBox(
